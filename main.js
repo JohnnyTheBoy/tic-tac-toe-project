@@ -13,7 +13,7 @@ var c3Field = document.getElementById("c3");
 var resultDisplay = document.getElementById("resultDisplay");
 var turnDisplay = document.getElementById("turnDisplay");
 
-var playAgain = document.getElementById("playAgain");
+var button = document.getElementById("playAgain");
 //#endregion
 
 
@@ -46,6 +46,35 @@ function addListeners(array, event, func) {
 
 addListeners(table, "click", checkMove);
 
-function checkMove (event){
-    alert("You clicked me!");
+//#region  - remove listeners
+function removeListeners(array, event, func) {
+    array.forEach(function (element) {
+        element.removeEventListener(event, func)
+    });
 }
+//#endregion
+
+function checkMove(event) {
+
+    if (gameTurn === playerX.name) {
+        event.target.textContent = "X";
+        gameTurn = playerO.name;
+    }
+    else {
+        event.target.textContent = "O";
+        gameTurn = playerX.name;
+    }
+
+    event.target.removeEventListener("click", checkMove);
+
+}
+
+
+//#region - play game again
+function playAgain() {
+    removeListeners(table, "click", checkMove);
+    addListeners(table, "click", checkMove);
+}
+//#endregion
+button.addEventListener("click", playAgain);
+
