@@ -43,6 +43,7 @@ function addListeners(array, event, func) {
 //#endregion
 
 addListeners(table, "click", checkMove);
+button.addEventListener("click", playAgain);
 
 //#region  - remove listeners
 function removeListeners(array, event, func) {
@@ -63,7 +64,7 @@ function checkMove(event) {
         event.target.textContent = "X";
 
         result = checkPattern(playerX);
-        if (result === true) {
+        if (result) {
             resultDisplay.classList.add("winner");
             resultDisplay.textContent = "WIN X";
         }
@@ -81,7 +82,7 @@ function checkMove(event) {
         event.target.textContent = "O";
 
         result = checkPattern(playerO);
-        if (result === true) {
+        if (result) {
             resultDisplay.classList.add("winner");
             resultDisplay.textContent = "WIN O";
         }
@@ -103,11 +104,14 @@ function checkMove(event) {
 function playAgain() {
     removeListeners(table, "click", checkMove);
     addListeners(table, "click", checkMove);
+    resultDisplay.textContent = "";
     turnDisplay.textContent = "Turn: " + playerX.name;
+    playerX.moves = [];
+    playerO.moves = [];
 }
 //#endregion
 
-button.addEventListener("click", playAgain);
+
 
 //#region - find element in array function
 function find(array, element) {
