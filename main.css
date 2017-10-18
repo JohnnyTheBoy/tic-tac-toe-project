@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+td {
+    width: 150px;
+    height: 120px;
+    font-size: 60px;
+}
+
+.vertical {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.horizontal {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+h1, table {
+    text-align: center;
+    margin: auto;
+}
+h1 {
+    padding: 20px;
+}
+
+#turnDisplay {
+    font-size: 20px;
+}
