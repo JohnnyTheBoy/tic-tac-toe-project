@@ -18,7 +18,7 @@ td {
     border-bottom: 1px solid black;
 }
 
-h1, table {
+h1, table, #resultDisplay {
     text-align: center;
     margin: auto;
 }
@@ -28,4 +28,16 @@ h1 {
 
 #turnDisplay {
     font-size: 20px;
+}
+
+#resultDisplay {
+    padding-top: 20px;
+    font-size: 50px;
+}
+
+.winner {
+    color: green;
+}
+.tie {
+    color: purple;
 }
