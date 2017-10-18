@@ -18,7 +18,6 @@ var button = document.getElementById("playAgain");
 
 
 //#region - players, game turn, table
-
 var playerX = {
     name: "Player X",
     moves: []
@@ -32,7 +31,6 @@ var playerO = {
 var gameTurn = playerX.name;
 
 var table = [a1Field, a2Field, a3Field, b1Field, b2Field, b3Field, c1Field, c2Field, c3Field];
-
 //#endregion
 
 //#region - add listeners
@@ -54,27 +52,104 @@ function removeListeners(array, event, func) {
 }
 //#endregion
 
+
+//#region - checking player move and result
 function checkMove(event) {
 
+    var result;
+
     if (gameTurn === playerX.name) {
+        playerX.moves.push(event.target.getAttribute("id"));
         event.target.textContent = "X";
-        gameTurn = playerO.name;
+
+        result = checkPattern(playerX);
+        if (result === true) {
+            resultDisplay.classList.add("winner");
+            resultDisplay.textContent = "WIN X";
+        }
+        else if (result === false) {
+            resultDisplay.classList.add("tie");
+            resultDisplay.textContent = "GAME TIE";
+        }
+        else {
+            gameTurn = playerO.name;
+            turnDisplay.textContent = "Turn: " + playerO.name;
+        }
     }
     else {
+        playerO.moves.push(event.target.getAttribute("id"));
         event.target.textContent = "O";
-        gameTurn = playerX.name;
+
+        result = checkPattern(playerO);
+        if (result === true) {
+            resultDisplay.classList.add("winner");
+            resultDisplay.textContent = "WIN O";
+        }
+        else if (result === false) {
+            resultDisplay.classList.add("tie");
+            resultDisplay.textContent = "GAME TIE";
+        }
+        else {
+            gameTurn = playerX.name;
+            turnDisplay.textContent = "Turn: " + playerX.name;
+        }
     }
 
     event.target.removeEventListener("click", checkMove);
-
 }
-
+//#endregion
 
 //#region - play game again
 function playAgain() {
     removeListeners(table, "click", checkMove);
     addListeners(table, "click", checkMove);
+    turnDisplay.textContent = "Turn: " + playerX.name;
 }
 //#endregion
+
 button.addEventListener("click", playAgain);
 
+//#region - find element in array function
+function find(array, element) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === element) {
+            return true;
+        }
+    }
+    return false;
+}
+//#endregion
+
+
+//#region - result pattern, check player moves with winning combinations
+function checkPattern(player) {
+    var array = player.moves;
+
+    if (array.length >= 3 && array.length !== 5) {
+        for (var i = 0; i < array.length; i++) {
+            if (find(array, "a1") && find(array, "a2") && find(array, "a3")) { return true }
+            else if (find(array, "a1") && find(array, "b1") && find(array, "c1")) { return true }
+            else if (find(array, "a1") && find(array, "b2") && find(array, "c3")) { return true }
+            else if (find(array, "a2") && find(array, "b2") && find(array, "c2")) { return true }
+            else if (find(array, "a3") && find(array, "b2") && find(array, "c1")) { return true }
+            else if (find(array, "a3") && find(array, "b3") && find(array, "c3")) { return true }
+            else if (find(array, "b1") && find(array, "b2") && find(array, "b3")) { return true }
+            else if (find(array, "c1") && find(array, "c2") && find(array, "c3")) { return true }
+        }
+    }
+    else if (array.length === 5) {
+        for (var i = 0; i < array.length; i++) {
+            if (find(array, "a1") && find(array, "a2") && find(array, "a3")) { return true }
+            else if (find(array, "a1") && find(array, "b1") && find(array, "c1")) { return true }
+            else if (find(array, "a1") && find(array, "b2") && find(array, "c3")) { return true }
+            else if (find(array, "a2") && find(array, "b2") && find(array, "c2")) { return true }
+            else if (find(array, "a3") && find(array, "b2") && find(array, "c1")) { return true }
+            else if (find(array, "a3") && find(array, "b3") && find(array, "c3")) { return true }
+            else if (find(array, "b1") && find(array, "b2") && find(array, "b3")) { return true }
+            else if (find(array, "c1") && find(array, "c2") && find(array, "c3")) { return true }
+            else { return false };
+        }
+    }
+}
+
+//#endregion
